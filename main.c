@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "displayData.h"
-#include "contract.h"
-#include "customerInput.h"
+#include "order.h"
+#include "dataInput.h"
 #define MAX_FOOD_NAME 10
 #define MAX_TYPE_NAME 20
 #define MAX_ADD_INFO 100

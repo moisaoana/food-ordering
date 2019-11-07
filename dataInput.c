@@ -2,6 +2,7 @@
 // Created by Oana on 06.11.2019.
 //
 #include<stdio.h>
+
 void readCustomerData(char username[], char password[])
 {
     printf("Welcome to Food Thingies!\nPlease sign in to continue!\n");
@@ -10,7 +11,6 @@ void readCustomerData(char username[], char password[])
     printf("---Password\n");
     gets(password);
 }
-
 
 int getChoiceIndex(int noOfChoices, int *state) {
     int choiceIndex;
@@ -26,6 +26,7 @@ int getChoiceIndex(int noOfChoices, int *state) {
     return choiceIndex;
 
 }
+
 void addAdditionalInformation(char addInfo[])
 {
     printf("Any additional info?\n");

@@ -6,6 +6,8 @@
 
 void displayOrderInfo(char username[], char types[], double priceFood, char drinks[], double priceDrink, char addInfo[], int cutleryChoice)
 {
+    printf("This is your order:\n-------------------\n");
+    printf("Name: %s \n", username);
     printf("Food items:\n---%s: (%.2f)\n", types, priceFood);
     if(priceDrink!=0){
         printf("---%s: (%.2f)\n", drinks,priceDrink);
@@ -19,6 +21,7 @@ void displayOrderInfo(char username[], char types[], double priceFood, char drin
         printf("Additional info: %s\n", addInfo);
     printf("Payment amount: (%.2f)\n-------------------\n", priceFood+priceDrink);
 }
+
 void orderConfirmation(char username[], int *confirmOrder, int *state)
 {
     char choice;

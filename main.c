@@ -13,7 +13,10 @@ int main() {
     int confirmOrder = 0;
     char username[MAX_TYPE_NAME], password[MAX_TYPE_NAME];
     char food[][MAX_FOOD_NAME]={"Pizza", "Pasta", "Salad"};
-    char types[3][4][MAX_TYPE_NAME]={{"Pizza Carbonara","Pizza Diavola", "Pizza Margherita"},{"Chicken Alfredo", "Mac&cheese"},{"Tuna Salad", "Chicken Salad", "Greek Salad", "Cobb"}};
+    char types[3][4][MAX_TYPE_NAME]={
+            {"Pizza Carbonara","Pizza Diavola", "Pizza Margherita"},
+            {"Chicken Alfredo", "Mac&cheese"},
+            {"Tuna Salad", "Chicken Salad", "Greek Salad", "Cobb"}};
     double prices[3][4]={{21,23,19}, {23,21}, {23,22,19,21}};
     double drinkPrices[5]={5,5,5,4,0};
     char drinks[][MAX_TYPE_NAME]={"Coca-cola", "Fanta", "Lipton","Water","No, thanks!"};

@@ -2,22 +2,22 @@
 // Created by Oana on 06.11.2019.
 //
 #include<stdio.h>
-#define MAX_FOOD_NAME 10
-#define MAX_TYPE_NAME 20
+#define MAX_FOOD_NAME 80
+#define MAX_TYPE_NAME 70
 #define MAX_ADD_INFO 100
 
-void displayFoodOptions(int noOfFoods, char food[][MAX_FOOD_NAME])
+void displayFoodOptions(int noOfFoods, char **foods)
 {
     printf("Please choose the food you feel like eating today:\n");
     for(int i=0;i<noOfFoods;i++)
     {
         putchar('a'+i);
-        printf(") %s\n", food[i]);
+        printf(") %s\n", foods[i]);
     }
     printf("%c) Go back\n",'a'+noOfFoods);
 }
 
-void displayTypeOptions(int noTypes, char types[][MAX_TYPE_NAME], char food[], double prices[])
+void displayTypeOptions(int noTypes, char ***types, char **food, double ** prices)
 {
     printf("Please choose the type of %s:\n",food);
     for(int i=0;i<noTypes;i++) {
@@ -27,16 +27,13 @@ void displayTypeOptions(int noTypes, char types[][MAX_TYPE_NAME], char food[], d
     printf("%c) Go back\n",'a'+noTypes);
 }
 
-void displayDrinkOptions(int noOfDrinks, char food[], char drinks[][MAX_TYPE_NAME], double drinkPrices[])
+void displayDrinkOptions(int noOfDrinks, char ** food, char **drinks, double *drinkPrices)
 {
     printf("Please choose a drink to go with your %s:\n", food);
     for(int i=0;i<noOfDrinks;i++)
     {
         putchar('a'+i);
-        if(i!=noOfDrinks-1)
-            printf(") %s (%.2f)\n", drinks[i],drinkPrices[i]);
-        else
-            printf(") %s\n", drinks[i]);
+        printf(") %s (%.2f)\n", drinks[i],drinkPrices[i]);
     }
     printf("%c) Go back\n",'a'+noOfDrinks);
 }

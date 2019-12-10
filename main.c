@@ -6,123 +6,62 @@
 #include "dataInput.h"
 #define MAX_FOOD_NAME 80
 #define MAX_TYPE_NAME 70
-#define MAX_ADD_INFO 100
+#define MAX_ADD_INFO 60
 #define MAX_LINE 100
 #define LOAD_DATA "Please load the data"
-//
+void extractTypesAndPrices(char *dataLine, double *prices, char **type);
+
 int main() {
-    int noOfFoods;
-    int noOfDrinks, noOfCutlery=2;
+
+    int noOfFoods, noOfDrinks, noOfCutlery=2;
     int * noOfFoodTypes;
-    int state =0;
-    int j,k;
-    int confirmOrder = 0;
-    char username[MAX_TYPE_NAME], password[MAX_TYPE_NAME];
-    char ** foods, **line;
-    char * copyLine;
-    char drinksLine[MAX_LINE];
-    char ***foodTypes;
-    double ** foodPrices;
-    double * drinksPrices;
-    char ** drink;
-    int number=0;
+    int state =0, confirmOrder = 0;
+    char username[MAX_TYPE_NAME], password[MAX_TYPE_NAME], drinksLine[MAX_LINE];
+    char ** foods, **line, ** copyLine, ***foodTypes, ** drink;
+    double ** foodPrices, * drinksPrices;
     char cutlery[][MAX_TYPE_NAME]={"Yes!", "No, thanks!"};
     int foodChoice,typeChoice,drinkChoice, cutleryChoice;
     char addInfo[MAX_ADD_INFO];
-    char * pointer;
+    char *firstLine= (char*)malloc(MAX_LINE*sizeof(char));
     printf("%s\n", LOAD_DATA);
-    scanf("%d", &noOfFoods);
-    getchar();
-    //printf("%d\n", noOfFoods);
+    gets(firstLine);
+    firstLine[strlen(firstLine)-1]='\0';
+    noOfFoods=atoi(firstLine);
     line=(char**)malloc(noOfFoods*sizeof(char*));
     foods=(char**)malloc(noOfFoods*sizeof(char*));
-    copyLine=(char*)malloc(noOfFoods*sizeof(char));
+    copyLine=(char**)malloc(noOfFoods*sizeof(char*));
     noOfFoodTypes=(int*)malloc(noOfFoods*sizeof(int));
     foodTypes=(char***)malloc(noOfFoods*sizeof(char**));
     foodPrices = (double**)malloc(noOfFoods* sizeof(double*));
     for(int i=0;i<noOfFoods;i++)
     {
         line[i] = (char *) malloc(MAX_LINE * sizeof(char));
+        copyLine[i] = (char *) malloc(MAX_LINE * sizeof(char));
         foods[i] = (char *) malloc(MAX_FOOD_NAME * sizeof(char));
         gets(line[i]);
-        //printf("%s\n",line[i]);
-
         char *const  p = strchr(line[i], ':');
         if (p != NULL) {
             *p = '\0';
-            foods[i] = line[i];
-            //printf("%s\n",foods[i]);
-            // printf("%s\n", p+2);
         }
-        strcpy(copyLine, p + 2);
-        //printf("%s\n",copyLine);
-        pointer = strtok(p + 2, "(-");
-        number=0;
-        while (pointer!= NULL) {
-           // printf ("%s\n",pointer);
-            number++;
-            pointer = strtok(NULL, "(-");
-
+        char * p2=strchr(line[i],' ');
+        if(p2!=NULL)
+        {
+            *p2='\0';
+            foods[i]=line[i];
+            noOfFoodTypes[i]=atoi(p2+1);
         }
-        number=number/2;
-        //printf("%d\n", number);
-        noOfFoodTypes[i]=number;
-        // printf("%d\n", noOfFoodTypes[i]);
+        strcpy(copyLine[i], p + 2);
         foodTypes[i] = (char **) malloc(noOfFoodTypes[i] * sizeof(char *));
         foodPrices[i] = (double *) malloc(noOfFoodTypes[i] * sizeof(double));
-        pointer = strtok(copyLine, "(-");
-        j = 0;
-        k=-1;
-        while (pointer != NULL) {
-           // printf ("%s\n",pointer);
-            j++;
-            if (j % 2 != 0) {
-                k++;
-                foodTypes[i][k] = (char *) malloc(MAX_TYPE_NAME * sizeof(char));
-                foodTypes[i][k] = pointer;
-                //printf("%s\n", foodTypes[i][k]);
-            } else {
-                strcpy(pointer,pointer+1);
-                pointer[strlen(pointer)-1]='\0';
-                double price = atof(pointer);
-                foodPrices[i][k] = price;
-                //printf("%.2lf\n", foodPrices[i][k]);
-
-            }
-            pointer = strtok(NULL, "(-");
-
-        }
-
+        extractTypesAndPrices(copyLine[i], foodPrices[i], foodTypes[i]);
     }
-
-
-    scanf("%d", &noOfDrinks);
-    getchar();
+    gets(firstLine);
+    firstLine[strlen(firstLine)-1]='\0';
+    noOfDrinks=atoi(firstLine);
     gets(drinksLine);
     drinksPrices = (double *) malloc(noOfDrinks * sizeof(double));
     drink = (char **) malloc(noOfDrinks * sizeof(char *));
-    pointer = strtok(drinksLine, "(-");
-    j = 0;
-    k=-1;
-    while (pointer != NULL) {
-        // printf ("%s\n",pointer);
-        j++;
-        if (j % 2 != 0) {
-            k++;
-            drink[k] = (char *) malloc(MAX_FOOD_NAME * sizeof(char));
-            drink[k] = pointer;
-            //printf("%s\n", drink[k]);
-        } else {
-            strcpy(pointer,pointer+1);
-            pointer[strlen(pointer)-1]='\0';
-            double price = atof(pointer);
-            drinksPrices[k] = price;
-            //printf("%.2lf\n", drinksPrices[k]);
-
-        }
-        pointer = strtok(NULL, "(-");
-    }
-
+    extractTypesAndPrices(drinksLine,drinksPrices, drink);
     while(!confirmOrder){
         switch (state) {
             case 0:{
@@ -165,8 +104,48 @@ int main() {
 
         }
     }
+    for(int i=0;i<noOfFoods;i++) {
+        for(int j=0;j<noOfFoodTypes[i];j++) {
+            free(foodTypes[i][j]);
+        }
+        free(foodTypes[i]);
+        free(foodPrices[i]);
+        free(foods[i]);
+        free(line[i]);
+        free(copyLine[i]);
+    }
+    free(foodTypes);
+    free(foodPrices);
+    free(foods);
+    free(line);
+    free(copyLine);
+    free(noOfFoodTypes);
+    for(int i=0; i<noOfDrinks;i++)
+    {
+        free(drink[i]);
+    }
+    free(drink);
+    free(drinksPrices);
 
     return 0;
 }
-
-
+void extractTypesAndPrices(char *dataLine, double *prices, char **type)
+{
+   char * pointer = strtok(dataLine, "(-");
+   int j = 0, k=-1;
+   while (pointer != NULL) {
+        j++;
+        if (j % 2 != 0) {
+            k++;
+            type[k] = (char *) malloc(MAX_TYPE_NAME * sizeof(char));
+            pointer[strlen(pointer)-1]='\0';
+            strcpy(type[k],pointer);
+        } else {
+            strcpy(pointer,pointer+1);
+            pointer[strlen(pointer)-1]='\0';
+            double price = atof(pointer);
+           prices[k] =price;
+        }
+        pointer = strtok(NULL, "(-");
+    }
+}

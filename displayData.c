@@ -4,7 +4,7 @@
 #include<stdio.h>
 #define MAX_FOOD_NAME 80
 #define MAX_TYPE_NAME 70
-#define MAX_ADD_INFO 100
+#define MAX_ADD_INFO 60
 
 void displayFoodOptions(int noOfFoods, char **foods)
 {
@@ -17,7 +17,7 @@ void displayFoodOptions(int noOfFoods, char **foods)
     printf("%c) Go back\n",'a'+noOfFoods);
 }
 
-void displayTypeOptions(int noTypes, char ***types, char **food, double ** prices)
+void displayTypeOptions(int noTypes, char **types, char *food, double * prices)
 {
     printf("Please choose the type of %s:\n",food);
     for(int i=0;i<noTypes;i++) {
@@ -27,7 +27,7 @@ void displayTypeOptions(int noTypes, char ***types, char **food, double ** price
     printf("%c) Go back\n",'a'+noTypes);
 }
 
-void displayDrinkOptions(int noOfDrinks, char ** food, char **drinks, double *drinkPrices)
+void displayDrinkOptions(int noOfDrinks, char * food, char **drinks, double *drinkPrices)
 {
     printf("Please choose a drink to go with your %s:\n", food);
     for(int i=0;i<noOfDrinks;i++)

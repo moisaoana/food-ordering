@@ -23,8 +23,14 @@ int main() {
     int foodChoice,typeChoice,drinkChoice, cutleryChoice;
     char addInfo[MAX_ADD_INFO];
     char firstLine[MAX_LINE];
-    printf("%s\n", LOAD_DATA);
-    gets(firstLine);
+    FILE *filePointer;
+    filePointer=fopen("D:\\CP\\food-ordering\\data.txt", "r");
+    if(filePointer==NULL)
+    {
+        printf("%s\n", LOAD_DATA);
+        filePointer=stdin;
+    }
+    fgets(firstLine,MAX_LINE,filePointer);
     firstLine[strlen(firstLine)-1]='\0';
     noOfFoods=atoi(firstLine);
     line=(char**)malloc(noOfFoods*sizeof(char*));
@@ -38,7 +44,7 @@ int main() {
         line[i] = (char *) malloc(MAX_LINE * sizeof(char));
         copyLine[i] = (char *) malloc(MAX_LINE * sizeof(char));
         foods[i] = (char *) malloc(MAX_FOOD_NAME * sizeof(char));
-        gets(line[i]);
+        fgets(line[i],MAX_LINE,filePointer);
         char *const  p = strchr(line[i], ':');
         if (p != NULL) {
             *p = '\0';
@@ -55,10 +61,10 @@ int main() {
         foodPrices[i] = (double *) malloc(noOfFoodTypes[i] * sizeof(double));
         extractTypesAndPrices(copyLine[i], foodPrices[i], foodTypes[i]);
     }
-    gets(firstLine);
+    fgets(firstLine,MAX_LINE,filePointer);
     firstLine[strlen(firstLine)-1]='\0';
     noOfDrinks=atoi(firstLine);
-    gets(drinksLine);
+    fgets(drinksLine,MAX_LINE,filePointer);
     drinksPrices = (double *) malloc(noOfDrinks * sizeof(double));
     drink = (char **) malloc(noOfDrinks * sizeof(char *));
     extractTypesAndPrices(drinksLine,drinksPrices, drink);
@@ -126,7 +132,7 @@ int main() {
     }
     free(drink);
     free(drinksPrices);
-
+    fclose(filePointer);
     return 0;
 }
 void extractTypesAndPrices(char *dataLine, double *prices, char **type)

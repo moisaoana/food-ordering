@@ -22,7 +22,7 @@ int main() {
     char cutlery[][MAX_TYPE_NAME]={"Yes!", "No, thanks!"};
     int foodChoice,typeChoice,drinkChoice, cutleryChoice;
     char addInfo[MAX_ADD_INFO];
-    char *firstLine= (char*)malloc(MAX_LINE*sizeof(char));
+    char firstLine[MAX_LINE];
     printf("%s\n", LOAD_DATA);
     gets(firstLine);
     firstLine[strlen(firstLine)-1]='\0';
@@ -131,20 +131,20 @@ int main() {
 }
 void extractTypesAndPrices(char *dataLine, double *prices, char **type)
 {
-   char * pointer = strtok(dataLine, "(-");
-   int j = 0, k=-1;
-   while (pointer != NULL) {
+    char * pointer = strtok(dataLine, "(-");
+    int j = 0, k=-1;
+    while (pointer != NULL) {
         j++;
         if (j % 2 != 0) {
             k++;
             type[k] = (char *) malloc(MAX_TYPE_NAME * sizeof(char));
             pointer[strlen(pointer)-1]='\0';
-            strcpy(type[k],pointer);
+            type[k]=pointer;
         } else {
             strcpy(pointer,pointer+1);
             pointer[strlen(pointer)-1]='\0';
             double price = atof(pointer);
-           prices[k] =price;
+            prices[k] =price;
         }
         pointer = strtok(NULL, "(-");
     }

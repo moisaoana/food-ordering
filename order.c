@@ -4,7 +4,6 @@
 #include<stdio.h>
 #include<string.h>
 #include "order.h"
-#include "dataInput.h"
 #include "displayData.h"
 
 void displayOrderInfo(customer *c, type *t, type* d, char addInfo[], int cutleryChoice)

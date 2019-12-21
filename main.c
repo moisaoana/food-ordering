@@ -4,14 +4,14 @@
 #include "displayData.h"
 #include "order.h"
 #include "dataInput.h"
+#include "customerData.h"
+#include "food.h"
+#include "type.h"
 #define MAX_FOOD_NAME 80
 #define MAX_TYPE_NAME 70
 #define MAX_ADD_INFO 60
 #define MAX_LINE 100
 #define LOAD_DATA "Please load the data"
-void extractTypesAndPrices(char *dataLine, type *t);
-void freeFoods(food* food, int noOfFoods);
-void freeType(type * t);
 int main() {
     int noOfFoods, noOfDrinks, noOfCutlery=2;
     int state =0, confirmOrder = 0;
@@ -119,36 +119,4 @@ int main() {
     freeType(drink);
     fclose(filePointer);
     return 0;
-}
-void extractTypesAndPrices(char *dataLine,type*t)
-{
-    char * pointer = strtok(dataLine, "(-");
-    int j = 0, k=-1;
-    while (pointer != NULL) {
-        j++;
-        if (j % 2 != 0) {
-            k++;
-            pointer[strlen(pointer)-1]='\0';
-            t[k].name=pointer;
-        } else {
-            strcpy(pointer,pointer+1);
-            pointer[strlen(pointer)-1]='\0';
-            double price = atof(pointer);
-            t[k].price =price;
-        }
-        pointer = strtok(NULL, "(-");
-    }
-}
-void freeType(type * t) {
-    free(t->name);
-}
-void freeFoods(food* food, int noOfFoods) {
-    for (int i = 0; i < noOfFoods; i++) {
-        for (int j = 0; j < food[i].noOfTypes; j++) {
-            freeType(&(food[i].types[j]));
-        }
-        free(food[i].types);
-        free(food[i].name);
-    }
-    free(food);
 }

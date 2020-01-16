@@ -4,7 +4,9 @@
 
 #ifndef FOOD_ORDERING_ORDER_H
 #define FOOD_ORDERING_ORDER_H
-void displayOrderInfo(char username[], char types[], double priceFood, char drinks[], double priceDrink, char addInfo[], int cutleryChoice);
-void orderConfirmation(char username[], int *confirmOrder, int *state);
+#include"type.h"
+#include "customerData.h"
+void displayOrderInfo(customer *c, type *t, type* d, char addInfo[], int cutleryChoice);
+void orderConfirmation(customer *c, int *confirmOrder, int *state);
 
 #endif //FOOD_ORDERING_ORDER_H

@@ -2,16 +2,6 @@
 // Created by Oana on 06.11.2019.
 //
 #include<stdio.h>
-
-void readCustomerData(char username[], char password[])
-{
-    printf("Welcome to Food Thingies!\nPlease sign in to continue!\n");
-    printf("---Username\n");
-    gets(username);
-    printf("---Password\n");
-    gets(password);
-}
-
 int getChoiceIndex(int noOfChoices, int *state) {
     int choiceIndex;
     char choice = getchar();

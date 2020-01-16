@@ -3,14 +3,16 @@
 //
 #include<stdio.h>
 #include<string.h>
+#include "order.h"
+#include "displayData.h"
 
-void displayOrderInfo(char username[], char types[], double priceFood, char drinks[], double priceDrink, char addInfo[], int cutleryChoice)
+void displayOrderInfo(customer *c, type *t, type* d, char addInfo[], int cutleryChoice)
 {
     printf("This is your order:\n-------------------\n");
-    printf("Name: %s \n", username);
-    printf("Food items:\n---%s: (%.2f)\n", types, priceFood);
-    if(priceDrink!=0){
-        printf("---%s: (%.2f)\n", drinks,priceDrink);
+    printf("Name: %s \n", c->username);
+    printf("Food items:\n---%s: (%.2f)\n", t->name, t->price);
+    if(d->price!=0){
+        printf("---%s: (%.2f)\n", d->name,d->price);
     }
     printf("Cutlery: ");
     if(cutleryChoice==0)
@@ -19,10 +21,10 @@ void displayOrderInfo(char username[], char types[], double priceFood, char drin
         printf("no\n");
     if(strcmp(addInfo,"")!=0)
         printf("Additional info: %s\n", addInfo);
-    printf("Payment amount: (%.2f)\n-------------------\n", priceFood+priceDrink);
+    printf("Payment amount: (%.2f)\n-------------------\n", t->price+d->price);
 }
 
-void orderConfirmation(char username[], int *confirmOrder, int *state)
+void orderConfirmation(customer *c, int *confirmOrder, int *state)
 {
     char choice;
     printf("a) Confirm order\n");
@@ -30,7 +32,7 @@ void orderConfirmation(char username[], int *confirmOrder, int *state)
     choice = getchar();
     if(choice=='a') {
         *confirmOrder = 1;
-        printf("Order confirmed! Thank you for buying from us, %s!",username);
+        printf("Order confirmed! Thank you for buying from us, %s!",c->username);
     }
     else {
         (*state)-=2;
